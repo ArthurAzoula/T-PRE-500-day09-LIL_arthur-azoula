@@ -3,43 +3,56 @@ import random
 class Hangman:
 
     def __init__(self) -> None:
-        with open('liste_francais.txt', "r") as file:
+        with open('./word/liste_francais.txt', "r") as file:
             lines = file.readlines()
         self.word = random.choice(lines).strip()
         self.word_guess = ['_'] * len(self.word) 
-        self.chances = 7
+        self.chances = 6
+        self.attempts = 0
 
-    def play(self):
-        isFinished = False
-        isWinner = False
-
-        while not isFinished and self.chances > 0:
-            guess_word = self.guess()
-            if guess_word in self.word:
+    def guess(self, letter):
+        if letter == self.word:
+            return "correct"  # L'utilisateur a deviné le mot complet
+        elif letter.isalpha() and len(letter) == 1:
+            if letter in self.word:
+                self.attempts += 1
                 for i in range(len(self.word)):
-                    if self.word[i] == guess_word:
-                        self.word_guess[i] = guess_word
-                self.display()
+                    if self.word[i] == letter:
+                        self.word_guess[i] = letter
                 if '_' not in self.word_guess:
-                    isFinished = True
-                    isWinner = True
+                    return "correct"  # L'utilisateur a deviné toutes les lettres
+                return "correct"  # La lettre est correcte
             else:
                 self.chances -= 1
-                self.display()
-                print(f"Chances remaining: {self.chances}")
-
-        if isWinner:
-            print("Congratulations! You won.")
+                return "incorrect"  # La lettre est incorrecte
         else:
-            print(f"Sorry, you lost. The word was '{self.word}'.")
+            return "invalid"  # La lettre n'est ni valide ni correcte
 
-    def guess(self):
-        while True:
-            guess_word = input("Choose a letter [A-Z, a-z]: ").lower()
-            if guess_word.isalpha() and len(guess_word) == 1:
-                return guess_word
-            else:
-                print("Please enter a valid single letter.")
+
+    def is_game_over(self):
+        return self.chances == 0
+    
+    def is_winner(self):
+        return True if "_" not in self.word_guess else False
+    
+    def reset_game(self):
+        # Réinitialiser le mot à deviner
+        with open('./word/liste_francais.txt', "r") as file:
+            lines = file.readlines()
+        self.word = random.choice(lines).strip()
+        
+        # Réinitialiser le mot partiellement deviné
+        self.word_guess = ['_'] * len(self.word) 
+
+        # Réinitialiser les chances
+        self.chances = 6
+
+        # Réinitialiser le nombre d'essais
+        self.attempts = 0
+
+        # Réinitialiser l'état du jeu
+        self.isFinished = False
+        self.isWinner = False
 
     def display(self):
         print(" ".join(self.word_guess))

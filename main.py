@@ -1,8 +1,9 @@
-from hangman import *
+from gui import Gui
 
-# Create instance of hangman
-hangman = Hangman()
+# Create instance
+game = Gui()
 
-# play game
-hangman.play()
 
+if __name__ == '__main__':
+    # Run game
+    game.run()
