@@ -38,8 +38,12 @@ class Gui:
             column = i % 8
             button.grid(row=row, column=column, padx=5, pady=5)
 
+        # Lettre essayée
+        self.letter_try = tk.Label(frame, font=('Roboto',18), fg='white', bg='green')
+        self.letter_try.grid(row=4, column=1, columnspan=4)
+
         # Label pour le message de fin de partie
-        self.end_message = tk.Label(frame, font=('Roboto', 18), fg='white', bg='green')
+        self.end_message = tk.Label(frame, font=('Roboto', 18), fg='brown', bg='green')
         self.end_message.grid(row=3, column=0, columnspan=4)
 
     def guess_letter(self, letter):
@@ -56,6 +60,7 @@ class Gui:
         elif guess_result == "incorrect":
             # La lettre est incorrecte, mettre à jour l'affichage des chances restantes
             self.chances_remaining_label.config(text=f"Chances remaining: {self.hangman.chances}")
+            self.letter_try.config(text=f"Letter tried : {', '.join(self.hangman.letter_try)}")
             if self.hangman.is_game_over():
                 self.show_message(f"Sorry, you've lost. The word was '{self.hangman.word}'.", foreground='red')
                 self.hangman.reset_game()

@@ -7,6 +7,7 @@ class Hangman:
             lines = file.readlines()
         self.word = random.choice(lines).strip()
         self.word_guess = ['_'] * len(self.word) 
+        self.letter_try = []
         self.chances = 6
         self.attempts = 0
 
@@ -24,6 +25,7 @@ class Hangman:
                 return "correct"  # La lettre est correcte
             else:
                 self.chances -= 1
+                if letter not in self.letter_try: self.letter_try.append(letter) # On ajoute les lettres de l'utilisateur
                 return "incorrect"  # La lettre est incorrecte
         else:
             return "invalid"  # La lettre n'est ni valide ni correcte
@@ -43,6 +45,9 @@ class Hangman:
         
         # Réinitialiser le mot partiellement deviné
         self.word_guess = ['_'] * len(self.word) 
+
+        # Réinitialiser les lettres essayées
+        self.letter_try = []
 
         # Réinitialiser les chances
         self.chances = 6
