@@ -54,5 +54,6 @@ class Hangman:
         self.isFinished = False
         self.isWinner = False
 
+
     def display(self):
         print(" ".join(self.word_guess))

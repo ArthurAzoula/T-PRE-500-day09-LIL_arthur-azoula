@@ -1,0 +1,15 @@
+/* style.css */
+.TLabel {
+    font-family: Roboto;
+    font-size: 16;
+    foreground: white;
+}
+
+.TButton {
+    font-family: Roboto;
+    font-size: 16;
+    background-color: black;
+    foreground: white;
+    padding: 10;
+}
+ 
