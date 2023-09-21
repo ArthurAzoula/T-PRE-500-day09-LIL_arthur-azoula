@@ -1,14 +1,16 @@
 import random
+from unidecode import unidecode
 
 class Hangman:
 
     def __init__(self) -> None:
         with open('./word/liste_francais.txt', "r") as file:
             lines = file.readlines()
-        self.word = random.choice(lines).strip()
+        self.word = unidecode(random.choice(lines).strip())
+        print(self.word)
         self.word_guess = ['_'] * len(self.word) 
         self.letter_try = []
-        self.chances = 6
+        self.chances = 10
         self.attempts = 0
 
     def guess(self, letter):
@@ -41,7 +43,9 @@ class Hangman:
         # Réinitialiser le mot à deviner
         with open('./word/liste_francais.txt', "r") as file:
             lines = file.readlines()
-        self.word = random.choice(lines).strip()
+        self.word = unidecode(random.choice(lines).strip())
+
+        print(self.word)
         
         # Réinitialiser le mot partiellement deviné
         self.word_guess = ['_'] * len(self.word) 
@@ -50,7 +54,7 @@ class Hangman:
         self.letter_try = []
 
         # Réinitialiser les chances
-        self.chances = 6
+        self.chances = 10
 
         # Réinitialiser le nombre d'essais
         self.attempts = 0

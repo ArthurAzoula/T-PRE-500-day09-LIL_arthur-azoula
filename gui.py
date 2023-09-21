@@ -54,7 +54,8 @@ class Gui:
             # La lettre est correcte, mettre à jour l'affichage du mot partiellement deviné
             self.set_word_to_guess(self.hangman.word_guess)
             if '_' not in self.hangman.word_guess:
-                self.show_message("Congratulations! You've won.", foreground='green')
+                self.show_message("Congratulations! You've won.", foreground='lightgreen')
+                self.active_all_buttons(self.alphabet_buttons, True)
                 self.hangman.reset_game()
                 self.set_word_to_guess(self.hangman.word_guess)
         elif guess_result == "incorrect":
@@ -63,8 +64,26 @@ class Gui:
             self.letter_try.config(text=f"Letter tried : {', '.join(self.hangman.letter_try)}")
             if self.hangman.is_game_over():
                 self.show_message(f"Sorry, you've lost. The word was '{self.hangman.word}'.", foreground='red')
+                self.active_all_buttons(self.alphabet_buttons, True)
                 self.hangman.reset_game()
                 self.set_word_to_guess(self.hangman.word_guess)
+        index = ALPHABET.find(letter)
+        self.active_button(self.alphabet_buttons[index], False)
+
+
+    def active_all_buttons(self, buttons: list, active):
+        if active:
+            for button in buttons:
+                button.config(state="normal", bg='brown')
+        else:
+            for button in buttons:
+                buttons.config(state="disabled", bg='grey')
+    
+    def active_button(self, button: tk.Button, active):
+        if active:
+            button.config(state='normal', bg='brown')
+        else:
+            button.config(state="disabled", bg='grey')
 
     def set_word_to_guess(self, word):
         # Mettre à jour le texte du Label word_to_guess
